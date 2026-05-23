@@ -1,6 +1,3 @@
-using Sirenix.OdinInspector;
-using UnityEngine;
-
 namespace EventSystem
 {
     public class CustomDataReceive : ReceiveScript

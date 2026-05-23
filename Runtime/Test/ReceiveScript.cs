@@ -5,8 +5,16 @@ namespace EventSystem
 {
     public class ReceiveScript : MonoBehaviour
     {
-        [DisableInPlayMode]public int priority;
-        [DisableInPlayMode]public string channel = "genericSend";
+        #region Variables
+        #if ODIN_INSPECTOR
+        [DisableInPlayMode]
+        #endif
+        public int priority;
+        #if ODIN_INSPECTOR
+        [DisableInPlayMode]
+        #endif
+        #endregion
+        public string channel = "genericSend";
         private void Start() => EventBus.Subscribe<string>(channel, ReceiveSignal, priority);
         private void OnDestroy() => EventBus.Unsubscribe<string>(channel, ReceiveSignal);
         /// <summary>
