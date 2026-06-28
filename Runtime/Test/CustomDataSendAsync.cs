@@ -1,28 +1,21 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace EventSystem
 {
-    public class CustomDataSend : SendScript
+    public class CustomDataSendAsync : SendScript
     {
-        [ContextMenu("Send Custom Data")]
-        public override void SendSignal()
+        [ContextMenu("Send Async Data")]
+        public override async void SendSignal()
         {
             //Create new message container
             CustomDataContainer _message = new CustomDataContainer(message);
 
             //Create a new message container with the result of all of the changes from Subscribed Listeners
-            CustomDataContainer newMessage = EventBus.Raise(channel, _message);
+            CustomDataContainer newMessage = await EventBus.RaiseAsync(channel, _message);
 
             //Read from new message container
             Debug.Log($"Final Message:{newMessage.data}");
-        }
-    }
-    public class CustomDataContainer
-    {
-        public string data;
-        public CustomDataContainer(string data)
-        {
-            this.data = data;
         }
     }
 }

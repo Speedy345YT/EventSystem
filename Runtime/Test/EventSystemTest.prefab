@@ -1,5 +1,96 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2549018132965599371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3461265139429748893}
+  - component: {fileID: 1825957083371723802}
+  - component: {fileID: 8545392179982905726}
+  - component: {fileID: 3129130098819691589}
+  - component: {fileID: 3485019977387692928}
+  m_Layer: 0
+  m_Name: Async Data Send
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3461265139429748893
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549018132965599371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2774866809834104102}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1825957083371723802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549018132965599371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907f86d50d851f34880bc7b47aa20458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataSendAsync
+  channel: genericSend
+  message: Hello World Async
+--- !u!114 &8545392179982905726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549018132965599371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2892579b12b866c4096a678b0b3f77c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceiveAsync
+  priority: -10
+  channel: genericSend
+--- !u!114 &3129130098819691589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549018132965599371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2892579b12b866c4096a678b0b3f77c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceiveAsync
+  priority: 0
+  channel: genericSend
+--- !u!114 &3485019977387692928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549018132965599371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2892579b12b866c4096a678b0b3f77c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceiveAsync
+  priority: 10
+  channel: genericSend
 --- !u!1 &2855559142724904298
 GameObject:
   m_ObjectHideFlags: 0
@@ -47,7 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba47186131a45d54393b824bd6ad0694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataSend
-  channel: customDataSend
+  channel: genericSend
+  message: Hello World
 --- !u!114 &987250711229218316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceive
   priority: 10
-  channel: customDataSend
+  channel: genericSend
 --- !u!114 &6003697753508328898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceive
   priority: 0
-  channel: customDataSend
+  channel: genericSend
 --- !u!114 &6220438270438038206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceive
   priority: -10
-  channel: customDataSend
+  channel: genericSend
 --- !u!1 &5462551776857817628
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2774866809834104102}
+  - component: {fileID: 4368453989809453530}
   m_Layer: 0
   m_Name: EventSystemTest
   m_TagString: Untagged
@@ -121,8 +214,21 @@ Transform:
   m_Children:
   - {fileID: 3053622422855476343}
   - {fileID: 8966826265833169040}
+  - {fileID: 3461265139429748893}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4368453989809453530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462551776857817628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc17d304aa02a840942ffd15bd5a36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventSystem::EventSystem.EventBusInitializer
 --- !u!1 &7140531946116479572
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +238,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3053622422855476343}
-  - component: {fileID: 1247899568870161711}
+  - component: {fileID: 71172466512458520}
   - component: {fileID: 8843619461532601975}
   - component: {fileID: 8059991869360961591}
   - component: {fileID: 7319777130172934711}
@@ -158,7 +264,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2774866809834104102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1247899568870161711
+--- !u!114 &71172466512458520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.SendScript
   channel: genericSend
+  message: Hello World
 --- !u!114 &8843619461532601975
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace EventSystem
@@ -6,12 +5,15 @@ namespace EventSystem
     public class SendScript : MonoBehaviour
     {
         public string channel = "genericSend";
-        #if ODIN_INSPECTOR
-        [Button("Send Signal")]
-        #endif
-        public virtual void SendSignal(string message)
+        public string message = "Hello World";
+        public virtual void SendSignal()
         {
-            EventBus.Invoke(channel, message);
+            EventBus.Raise(channel, message);
+        }
+        [ContextMenu("Send Signal")]
+        public void SendMessage()
+        {
+            SendSignal();
         }
     }
 }
