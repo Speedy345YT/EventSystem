@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace EventSystem
+namespace EventBusSystem
 {
     public class CustomDataReceiveAsync : ReceiveScript
     {

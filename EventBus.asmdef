@@ -1,6 +1,6 @@
 {
-    "name": "EventSystem",
-    "rootNamespace": "EventSystem",
+    "name": "EventBus",
+    "rootNamespace": "EventBus",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

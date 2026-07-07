@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EventSystem
+namespace EventBusSystem
 {
     public class CustomDataSend : SendScript
     {

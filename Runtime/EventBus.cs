@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace EventSystem
+namespace EventBusSystem
 {
     public static class EventBus
     {

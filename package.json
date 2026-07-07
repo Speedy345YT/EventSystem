@@ -1,8 +1,8 @@
 {
-    "name": "com.speedy345.eventsystem",
+    "name": "com.speedy345.eventbus",
     "version": "1.0.0",
-    "displayName": "Event System",
-    "description": "Event Bus System",
+    "displayName": "Event Bus",
+    "description": "Event Bus",
     "author": {
         "name": "Speedy345"
     }
