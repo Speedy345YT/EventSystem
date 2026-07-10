@@ -44,11 +44,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2549018132965599371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 907f86d50d851f34880bc7b47aa20458, type: 3}
+  m_Script: {fileID: 11500000, guid: cb18dce3ee89fce4184b03a8c999a1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataSendAsync
   channel: genericSend
-  message: Hello World Async
+  message: Hello World
 --- !u!114 &8545392179982905726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2549018132965599371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2892579b12b866c4096a678b0b3f77c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dc31017cf86802419fff71cb55c9346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceiveAsync
   priority: -10
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2549018132965599371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2892579b12b866c4096a678b0b3f77c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dc31017cf86802419fff71cb55c9346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceiveAsync
   priority: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2549018132965599371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2892579b12b866c4096a678b0b3f77c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dc31017cf86802419fff71cb55c9346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceiveAsync
   priority: 10
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2855559142724904298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba47186131a45d54393b824bd6ad0694, type: 3}
+  m_Script: {fileID: 11500000, guid: cfff9e94744a5a444a7ee7c929c01976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataSend
   channel: genericSend
@@ -149,10 +149,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2855559142724904298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b62f057394dee040a60ed57eb1f0406, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a6db8e1da272a440ab3d2a4f346fcb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceive
-  priority: 10
+  priority: -10
   channel: genericSend
 --- !u!114 &6003697753508328898
 MonoBehaviour:
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2855559142724904298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b62f057394dee040a60ed57eb1f0406, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a6db8e1da272a440ab3d2a4f346fcb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceive
   priority: 0
@@ -177,10 +177,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2855559142724904298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b62f057394dee040a60ed57eb1f0406, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a6db8e1da272a440ab3d2a4f346fcb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.CustomDataReceive
-  priority: -10
+  priority: 10
   channel: genericSend
 --- !u!1 &5462551776857817628
 GameObject:
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5462551776857817628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc17d304aa02a840942ffd15bd5a36e, type: 3}
+  m_Script: {fileID: 11500000, guid: 094c830c39bade944a1e6f111b7eafb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.EventBusInitializer
 --- !u!1 &7140531946116479572
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7140531946116479572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c94b8e4bad627b44993be4e0982eb4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a231d05518d77448807ab5db91e4587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.SendScript
   channel: genericSend
@@ -287,10 +287,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7140531946116479572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04a74e2934c00e4791acf2e6044f932, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ad636d64de59b4e86c59cb3b1e5e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.ReceiveScript
-  priority: 10
+  priority: -10
   channel: genericSend
 --- !u!114 &8059991869360961591
 MonoBehaviour:
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7140531946116479572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04a74e2934c00e4791acf2e6044f932, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ad636d64de59b4e86c59cb3b1e5e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.ReceiveScript
   priority: 0
@@ -315,8 +315,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7140531946116479572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04a74e2934c00e4791acf2e6044f932, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ad636d64de59b4e86c59cb3b1e5e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: EventSystem::EventSystem.ReceiveScript
-  priority: -10
+  priority: 10
   channel: genericSend
