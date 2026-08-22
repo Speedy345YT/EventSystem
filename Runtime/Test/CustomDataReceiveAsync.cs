@@ -13,8 +13,6 @@ namespace EventBusSystem
         /// <param name="message"></param>
         public async Task ReceiveSignal(CustomDataContainer message)
         {
-            Debug.Log($"[CustomDataReceiveAsync] Hit! priority {priority}");
-
             await Task.Delay(100);
             string result = $"Priority {priority}: Waited 100ms";
             await Task.Delay(100);
