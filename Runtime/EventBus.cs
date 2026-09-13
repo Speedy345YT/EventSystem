@@ -32,39 +32,11 @@ namespace EventBusSystem
         }
 
         public static void Subscribe<T>(
-            EventChannel<T> channel,
-            Func<T, Task> handler,
-            int priority = 0)
-        {
-            GetOrCreate(channel).Add(new PrioritizedHandler(
-                priority,
-                handler,
-                payload => handler((T)payload)
-            ));
-        }
-
-        public static void Subscribe<T>(
             string channel,
             Action<T> handler,
             int priority = 0)
         {
             GetOrCreate<T>(channel).Add(new PrioritizedHandler(
-                priority,
-                handler,
-                payload =>
-                {
-                    handler((T)payload);
-                    return Task.CompletedTask;
-                }
-            ));
-        }
-
-        public static void Subscribe<T>(
-            EventChannel<T> channel,
-            Action<T> handler,
-            int priority = 0)
-        {
-            GetOrCreate(channel).Add(new PrioritizedHandler(
                 priority,
                 handler,
                 payload =>
@@ -93,9 +65,7 @@ namespace EventBusSystem
         /// <param name="channel">Channel that is being unsubscribed from</param>
         /// <param name="handler">The Method that no longer will listen for event triggers</param>
         public static void Unsubscribe<T>(string channel, Action<T> handler) => Remove<T>(channel, handler);
-        public static void Unsubscribe<T>(EventChannel<T> channel, Action<T> handler) => Remove<T>(channel, handler);
         public static void Unsubscribe<T>(string channel, Func<T, Task> handler) => Remove<T>(channel, handler);
-        public static void Unsubscribe<T>(EventChannel<T> channel, Func<T, Task> handler) => Remove<T>(channel, handler);
         public static void Unsubscribe(string channel, Action handler) => Remove<NoPayload>(channel, handler);
         public static void Unsubscribe(string channel, Func<Task> handler) => Remove<NoPayload>(channel, handler);
 
@@ -123,23 +93,6 @@ namespace EventBusSystem
             }
             return payload;
         }
-        public static T Raise<T>(EventChannel<T> channel, T payload)
-        {
-            foreach (var h in Snapshot(channel))
-                h.Invoke(payload);
-
-            return payload;
-        }
-
-        public static async Task<T> RaiseAsync<T>(
-            EventChannel<T> channel,
-            T payload)
-        {
-            foreach (var h in Snapshot(channel))
-                await h.InvokeAsync(payload).ConfigureAwait(false);
-
-            return payload;
-        }
         public static async Task RaiseAsync(string channel)
         {
             foreach (var h in Snapshot<NoPayload>(channel))
@@ -162,16 +115,6 @@ namespace EventBusSystem
             _dirty.Add(key);
             return list;
         }
-        private static List<PrioritizedHandler> GetOrCreate<T>(EventChannel<T> channel)
-        {
-            if (!_handlers.TryGetValue(channel, out var list))
-            {
-                list = new List<PrioritizedHandler>();
-                _handlers[channel] = list;
-            }
-            _dirty.Add(channel);
-            return list;
-        }
 
         private static List<PrioritizedHandler> Snapshot<T>(string channel)
         {
@@ -187,20 +130,6 @@ namespace EventBusSystem
             Debug.Log($"[EventBus] Snapshot found {list.Count} handlers for '{channel}' {typeof(T).Name}");
             return new List<PrioritizedHandler>(list);
         }
-        private static List<PrioritizedHandler> Snapshot<T>(
-            EventChannel<T> channel)
-        {
-            if (!_handlers.TryGetValue(channel, out var list) || list.Count == 0)
-                return new List<PrioritizedHandler>();
-
-            if (_dirty.Contains(channel))
-            {
-                list.Sort((a, b) => b.Priority.CompareTo(a.Priority));
-                _dirty.Remove(channel);
-            }
-
-            return new List<PrioritizedHandler>(list);
-        }
 
         private static void Remove<T>(string channel, Delegate handler)
         {
@@ -208,11 +137,6 @@ namespace EventBusSystem
                 list.RemoveAll(h => h.Matches(handler));
         }
 
-        private static void Remove<T>(EventChannel<T> channel, Delegate handler)
-        {
-            if (_handlers.TryGetValue(channel, out var list))
-                list.RemoveAll(h => h.Matches(handler));
-        }
         public static void Clear(string channel) => _handlers.Remove((channel, typeof(void)));
 
         private class PrioritizedHandler
@@ -244,4 +168,3 @@ namespace EventBusSystem
         
     }
 }
-public class EventChannel<T> { }
