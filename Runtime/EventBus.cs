@@ -173,7 +173,7 @@ namespace EventBusSystem
             }
         }
         private class NoPayload { }
-        public sealed class EventChannel<T> {}
+        public class EventChannel<T> {}
     }
 }
 
