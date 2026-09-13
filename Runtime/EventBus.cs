@@ -11,7 +11,7 @@ namespace EventBusSystem
         private static readonly Dictionary<object, List<PrioritizedHandler>> _handlers
             = new Dictionary<object, List<PrioritizedHandler>>();
 
-        private static readonly List<(string, Type)> _dirty = new List<(string, Type)>();
+        private static readonly List<object> _dirty = new List<object>();
         /// <summary>
         /// Allows you to subscribe and receive information when an event is Invoked
         /// </summary>
@@ -32,6 +32,14 @@ namespace EventBusSystem
             Subscribe(channel, handler, priority);
         }
         public static void Subscribe<T>(string channel, Action<T> handler, int priority = 0)
+        {
+            GetOrCreate<T>(channel).Add(new PrioritizedHandler(
+                priority,
+                handler,
+                payload => { handler((T)payload); return Task.CompletedTask; }
+            ));
+        }
+        public static void Subscribe<T>(EventChannel<T> channel, Action<T> handler, int priority = 0)
         {
             GetOrCreate<T>(channel).Add(new PrioritizedHandler(
                 priority,
@@ -124,6 +132,16 @@ namespace EventBusSystem
                 _handlers[key] = list;
             }
             _dirty.Add(key);
+            return list;
+        }
+        private static List<PrioritizedHandler> GetOrCreate<T>(EventChannel<T> channel)
+        {
+            if (!_handlers.TryGetValue(channel, out var list))
+            {
+                list = new List<PrioritizedHandler>();
+                _handlers[channel] = list;
+            }
+            _dirty.Add(channel);
             return list;
         }
 
