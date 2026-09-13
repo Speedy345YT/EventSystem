@@ -29,7 +29,7 @@ namespace EventBusSystem
         }
         public static void Subscribe<T>(EventChannel<T> channel, Func<T, Task> handler, int priority = 0)
         {
-            Subscribe(channel.Name, handler, priority);
+            Subscribe(channel, handler, priority);
         }
         public static void Subscribe<T>(string channel, Action<T> handler, int priority = 0)
         {
