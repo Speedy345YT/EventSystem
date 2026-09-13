@@ -66,7 +66,9 @@ namespace EventBusSystem
         /// <param name="channel">Channel that is being unsubscribed from</param>
         /// <param name="handler">The Method that no longer will listen for event triggers</param>
         public static void Unsubscribe<T>(string channel, Action<T> handler) => Remove<T>(channel, handler);
+        public static void Unsubscribe<T>(EventChannel<T> channel, Action<T> handler) => Remove<T>(channel, handler);
         public static void Unsubscribe<T>(string channel, Func<T, Task> handler) => Remove<T>(channel, handler);
+        public static void Unsubscribe<T>(EventChannel<T> channel, Func<T, Task> handler) => Remove<T>(channel, handler);
         public static void Unsubscribe(string channel, Action handler) => Remove<NoPayload>(channel, handler);
         public static void Unsubscribe(string channel, Func<Task> handler) => Remove<NoPayload>(channel, handler);
 
@@ -173,7 +175,7 @@ namespace EventBusSystem
             }
         }
         private class NoPayload { }
-        public class EventChannel<T> {}
+        
     }
 }
-
+public class EventChannel<T> { }
