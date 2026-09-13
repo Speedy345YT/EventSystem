@@ -142,7 +142,7 @@ namespace EventBusSystem
             return new List<PrioritizedHandler>(list);
         }
 
-        private static void Remove<T>(string channel, Delegate handler)
+        private static void Remove<T>(object channel, Delegate handler)
         {
             if (_handlers.TryGetValue((channel, typeof(T)), out var list))
                 list.RemoveAll(h => h.Matches(handler));
