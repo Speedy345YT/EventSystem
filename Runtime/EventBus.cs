@@ -8,8 +8,8 @@ namespace EventBusSystem
 {
     public static class EventBus
     {
-        private static readonly Dictionary<(string, Type), List<PrioritizedHandler>> _handlers
-            = new Dictionary<(string, Type), List<PrioritizedHandler>>();
+        private static readonly Dictionary<object, List<PrioritizedHandler>> _handlers
+            = new Dictionary<object, List<PrioritizedHandler>>();
 
         private static readonly List<(string, Type)> _dirty = new List<(string, Type)>();
         /// <summary>
@@ -26,6 +26,10 @@ namespace EventBusSystem
                 handler,
                 payload => handler((T)payload)
             ));
+        }
+        public static void Subscribe<T>(EventChannel<T> channel, Func<T, Task> handler, int priority = 0)
+        {
+            Subscribe(channel.Name, handler, priority);
         }
         public static void Subscribe<T>(string channel, Action<T> handler, int priority = 0)
         {
@@ -77,6 +81,10 @@ namespace EventBusSystem
 
             return payload;
         }
+        public static T Raise<T>(EventChannel<T> channel, T payload)
+        {
+            return Raise(channel, payload);
+        }
         public static void Raise(string channel)
         {
             foreach (var h in Snapshot<NoPayload>(channel))
@@ -89,6 +97,10 @@ namespace EventBusSystem
                 await h.InvokeAsync(payload).ConfigureAwait(false);
             }
             return payload;
+        }
+        public static async Task<T> RaiseAsync<T>(EventChannel<T> channel, T payload)
+        {
+            return await RaiseAsync(channel, payload);
         }
         public static async Task RaiseAsync(string channel)
         {
@@ -161,6 +173,7 @@ namespace EventBusSystem
             }
         }
         private class NoPayload { }
+        public sealed class EventChannel<T> {}
     }
 }
 
