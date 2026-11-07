@@ -41,14 +41,14 @@ namespace EventBusSystem
             ));
         }
 
-        public static void Subscribe<T>(string channel, Action handler, int priority = 0)
+        public static void Subscribe(string channel, Action handler, int priority = 0)
         {
-            GetOrCreate<T>(channel).Add(new PrioritizedHandler(
+            GetOrCreate<NoPayload>(channel).Add(new PrioritizedHandler(
                 priority,
                 handler,
-                payload =>
+                _ =>
                 {
-                    handler((T)payload);
+                    handler();
                     return Task.CompletedTask;
                 }
             ));
