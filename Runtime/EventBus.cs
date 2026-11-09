@@ -82,8 +82,10 @@ namespace EventBusSystem
         /// </summary>
         public static T Raise<T>(string channel, T payload)
         {
+            T _payload = payload;
+
             foreach (var h in Snapshot<T>(channel))
-                h.Invoke(payload);
+                _payload = (T)h.Invoke(payload);
 
             return payload;
         }
@@ -94,9 +96,11 @@ namespace EventBusSystem
         }
         public static async Task<T> RaiseAsync<T>(string channel, T payload)
         {
+            T _payload = payload;
+
             foreach (var h in Snapshot<T>(channel))
             {
-                await h.InvokeAsync(payload).ConfigureAwait(false);
+                _payload = (T)await h.InvokeAsync(payload).ConfigureAwait(false);
             }
             return payload;
         }
@@ -163,15 +167,14 @@ namespace EventBusSystem
             public bool Matches(Delegate handler)
                 => _original.Target == handler.Target
                 && _original.Method == handler.Method;
-            public void Invoke(object payload) {
-                _action(payload);
-            }
-            public Task InvokeAsync(object payload)
-            {
+            public object Invoke(object payload) {
                 return _action(payload);
+            }
+            public Task<object> InvokeAsync(object payload)
+            {
+                return (Task<object>)_action(payload);
             }
         }
         private class NoPayload { }
-        
     }
 }

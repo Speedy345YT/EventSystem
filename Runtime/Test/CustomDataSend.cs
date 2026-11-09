@@ -17,7 +17,7 @@ namespace EventBusSystem
             Debug.Log($"Final Message:{newMessage.data}");
         }
     }
-    public class CustomDataContainer
+    public struct CustomDataContainer
     {
         public string data;
         public CustomDataContainer(string data)
