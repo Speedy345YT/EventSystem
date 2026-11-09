@@ -15,6 +15,8 @@ namespace EventBusSystem
             Debug.Log($"[CustomDataReceive] Hit! priority {priority}");
 
             message.data = $"{message.data} + {priority}";
+
+
         }
     }
 }
