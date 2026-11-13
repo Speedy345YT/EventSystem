@@ -11,7 +11,6 @@ namespace EventBusSystem
         private static readonly Dictionary<object, List<PrioritizedHandler>> _handlers
             = new Dictionary<object, List<PrioritizedHandler>>();
 
-        private static readonly List<object> _dirty = new List<object>();
         /// <summary>
         /// Allows you to subscribe and receive information when an event is Invoked
         /// </summary>
@@ -19,20 +18,18 @@ namespace EventBusSystem
         /// <param name="channel">The name of the channel you're subscribing to Example:("OnPlayerHit")</param>
         /// <param name="handler">The method that is triggered Example:(Item.OnPlayerHit)</param>
         /// <param name="priority">What order this will trigger in Example:(100)</param>
-        public static void Subscribe<T>(string channel, Func<T, Task> handler, int priority = 0)
+        public static void Subscribe<T>(object channel, Func<T, Task> handler, int priority = 0)
         {
             GetOrCreate<T>(channel).Add(new PrioritizedHandler(
                 priority,
-                handler,
                 payload => handler((T)payload)
             ));
         }
 
-        public static void Subscribe<T>(string channel, Action<T> handler, int priority = 0)
+        public static void Subscribe<T>(object channel, Action<T> handler, int priority = 0)
         {
             GetOrCreate<T>(channel).Add(new PrioritizedHandler(
                 priority,
-                handler,
                 payload =>
                 {
                     handler((T)payload);
@@ -41,11 +38,10 @@ namespace EventBusSystem
             ));
         }
 
-        public static void Subscribe(string channel, Action handler, int priority = 0)
+        public static void Subscribe(object channel, Action handler, int priority = 0)
         {
             GetOrCreate<NoPayload>(channel).Add(new PrioritizedHandler(
                 priority,
-                handler,
                 _ =>
                 {
                     handler();
@@ -57,11 +53,10 @@ namespace EventBusSystem
         /// <summary>
         /// Subscribe with no payload. Handler is awaited before the next handler fires.
         /// </summary>
-        public static void Subscribe(string channel, Func<Task> handler, int priority = 0)
+        public static void Subscribe(object channel, Func<Task> handler, int priority = 0)
         {
             GetOrCreate<NoPayload>(channel).Add(new PrioritizedHandler(
                 priority,
-                handler,
                 _ => handler()
             ));
         }
@@ -71,10 +66,10 @@ namespace EventBusSystem
         /// <typeparam name="T">Used for narrowing down the Method that is removed</typeparam>
         /// <param name="channel">Channel that is being unsubscribed from</param>
         /// <param name="handler">The Method that no longer will listen for event triggers</param>
-        public static void Unsubscribe<T>(string channel, Action<T> handler) => Remove<T>(channel, handler);
-        public static void Unsubscribe<T>(string channel, Func<T, Task> handler) => Remove<T>(channel, handler);
-        public static void Unsubscribe(string channel, Action handler) => Remove<NoPayload>(channel, handler);
-        public static void Unsubscribe(string channel, Func<Task> handler) => Remove<NoPayload>(channel, handler);
+        public static void Unsubscribe<T>(object channel, Action<T> handler) => Remove<T>(channel, handler);
+        public static void Unsubscribe<T>(object channel, Func<T, Task> handler) => Remove<T>(channel, handler);
+        public static void Unsubscribe(object channel, Action handler) => Remove<NoPayload>(channel, handler);
+        public static void Unsubscribe(object channel, Func<Task> handler) => Remove<NoPayload>(channel, handler);
 
         /// <summary>
         /// Fires all handlers on the channel in priority order.
@@ -82,10 +77,8 @@ namespace EventBusSystem
         /// </summary>
         public static T Raise<T>(string channel, T payload)
         {
-            T _payload = payload;
-
             foreach (var h in Snapshot<T>(channel))
-                _payload = (T)h.Invoke(payload);
+                h.Invoke(payload);
 
             return payload;
         }
@@ -96,12 +89,9 @@ namespace EventBusSystem
         }
         public static async Task<T> RaiseAsync<T>(string channel, T payload)
         {
-            T _payload = payload;
-
             foreach (var h in Snapshot<T>(channel))
-            {
-                _payload = (T)await h.InvokeAsync(payload).ConfigureAwait(false);
-            }
+                await h.InvokeAsync(payload).ConfigureAwait(false);
+
             return payload;
         }
         public static async Task RaiseAsync(string channel)
@@ -113,9 +103,8 @@ namespace EventBusSystem
         public static void ClearAll()
         {
             _handlers.Clear();
-            _dirty.Clear();
         }
-        private static List<PrioritizedHandler> GetOrCreate<T>(string channel)
+        private static List<PrioritizedHandler> GetOrCreate<T>(object channel)
         {
             var key = (channel, typeof(T));
             if (!_handlers.TryGetValue(key, out var list))
@@ -123,56 +112,50 @@ namespace EventBusSystem
                 list = new List<PrioritizedHandler>();
                 _handlers[key] = list;
             }
-            _dirty.Add(key);
             return list;
         }
 
-        private static List<PrioritizedHandler> Snapshot<T>(string channel)
+        private static List<PrioritizedHandler> Snapshot<T>(object channel)
         {
             var key = (channel, typeof(T));
             if (!_handlers.TryGetValue(key, out var list) || list.Count == 0)
                 return new List<PrioritizedHandler>();
 
-            if (_dirty.Contains(key))
-            {
-                list.Sort((a, b) => b.Priority.CompareTo(a.Priority));
-                _dirty.Remove(key);
-            }
+            list.Sort((a, b) => b.Priority.CompareTo(a.Priority));
+
             Debug.Log($"[EventBus] Snapshot found {list.Count} handlers for '{channel}' {typeof(T).Name}");
             return new List<PrioritizedHandler>(list);
         }
 
-        private static void Remove<T>(string channel, Delegate handler)
+        private static void Remove<T>(object channel, Delegate handler)
         {
             if (_handlers.TryGetValue((channel, typeof(T)), out var list))
                 list.RemoveAll(h => h.Matches(handler));
         }
 
-        public static void Clear(string channel) => _handlers.Remove((channel, typeof(void)));
+        public static void Clear(object channel) => _handlers.Remove((channel, typeof(void)));
 
         private class PrioritizedHandler
         {
             public int Priority { get; }
 
-            private readonly Delegate _original;
             private readonly Func<object, Task> _action;
 
-            public PrioritizedHandler(int priority, Delegate original, Func<object, Task> action)
+            public PrioritizedHandler(int priority, Func<object, Task> action)
             {
                 Priority = priority;
-                _original = original;
                 _action = action;
             }
 
             public bool Matches(Delegate handler)
-                => _original.Target == handler.Target
-                && _original.Method == handler.Method;
+                => _action.Target == handler.Target
+                && _action.Method == handler.Method;
             public object Invoke(object payload) {
                 return _action(payload);
             }
-            public Task<object> InvokeAsync(object payload)
+            public Task InvokeAsync(object payload)
             {
-                return (Task<object>)_action(payload);
+                return _action(payload);
             }
         }
         private class NoPayload { }
