@@ -75,26 +75,26 @@ namespace EventBusSystem
         /// Fires all handlers on the channel in priority order.
         /// Returns the payload after all handlers have run so callers can read back any modifications.
         /// </summary>
-        public static T Raise<T>(string channel, T payload)
+        public static T Raise<T>(object channel, T payload)
         {
             foreach (var h in Snapshot<T>(channel))
                 h.Invoke(payload);
 
             return payload;
         }
-        public static void Raise(string channel)
+        public static void Raise(object channel)
         {
             foreach (var h in Snapshot<NoPayload>(channel))
                 h.Invoke(null);
         }
-        public static async Task<T> RaiseAsync<T>(string channel, T payload)
+        public static async Task<T> RaiseAsync<T>(object channel, T payload)
         {
             foreach (var h in Snapshot<T>(channel))
                 await h.InvokeAsync(payload).ConfigureAwait(false);
 
             return payload;
         }
-        public static async Task RaiseAsync(string channel)
+        public static async Task RaiseAsync(object channel)
         {
             foreach (var h in Snapshot<NoPayload>(channel))
                 await h.InvokeAsync(null).ConfigureAwait(false);
